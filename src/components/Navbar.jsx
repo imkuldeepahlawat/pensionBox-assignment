@@ -3,7 +3,11 @@ import logo from "../assets/logo.svg";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchQuery } from "../redux/productActions";
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const searchQuery = useSelector((state) => state.searchQuery);
   return (
     <div className="">
       <div className="flex justify-between my-1">
@@ -22,6 +26,11 @@ const Navbar = () => {
               type="text"
               placeholder="Search by Product, category or collection"
               className="bg-transparent focus:outline-none w-full"
+              value={searchQuery}
+              onChange={(e) => {
+                dispatch(setSearchQuery(e.target.value));
+                console.log(searchQuery);
+              }}
             />
           </div>
           {/* pipe */}
@@ -39,14 +48,14 @@ const Navbar = () => {
       <hr />
       <div className="uppercase p-2">
         <ul className=" mx-auto flex justify-between w-[80%]">
-            <li className="font-lightbold text-[20px]">Made in India</li>
-            <li className="font-lightbold text-[20px]">Men</li>
-            <li className="font-lightbold text-[20px]">Women</li>
-            <li className="font-lightbold text-[20px]">accessories</li>
-            <li className="font-lightbold text-[20px]">bewkoof air</li>
-            <li className="font-lightbold text-[20px]">official merch</li>
-            <li className="font-lightbold text-[20px]">plus size</li>
-            <li className="font-lightbold text-[20px]">teens</li>
+          <li className="font-lightbold text-[20px]">Made in India</li>
+          <li className="font-lightbold text-[20px]">Men</li>
+          <li className="font-lightbold text-[20px]">Women</li>
+          <li className="font-lightbold text-[20px]">accessories</li>
+          <li className="font-lightbold text-[20px]">bewkoof air</li>
+          <li className="font-lightbold text-[20px]">official merch</li>
+          <li className="font-lightbold text-[20px]">plus size</li>
+          <li className="font-lightbold text-[20px]">teens</li>
         </ul>
       </div>
     </div>
