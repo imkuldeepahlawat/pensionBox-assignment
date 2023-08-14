@@ -4,6 +4,7 @@ const initialState = {
     priceRangeFilter:null,
     searchQuery:"",
     sortBy:null,
+    pageNo:null
 }
 
 const productReducer = (state =initialState,action)=>{
@@ -18,6 +19,8 @@ const productReducer = (state =initialState,action)=>{
             return {...state,searchQuery:action.payload};
         case "SET_SORT_BY":
             return {...state,sortBy:action.payload};
+        case "SET_PAGE_NO":
+            return {...state,pageNo:action.payload};
         default:
                 return state;
     }

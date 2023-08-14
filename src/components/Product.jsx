@@ -18,32 +18,42 @@ const Product = () => {
   const sortBy = useSelector((state) => state.sortBy);
 
   useEffect(() => {
-    let url = `https://fakestoreapi.com/products/`;
     const onLoad = async () => {
       try {
-        console.log("render happen");
-
+        let url = `https://fakestoreapi.com/products/`;
+  
         if (categoryFilter) {
           url += `category/${categoryFilter}`;
         }
+  
         if (sortBy) {
           url += `?sort=${sortBy}`;
         }
-        let respo = await axios.get(url);
-        // if(priceRangeFilter){
-
-        // }
-        if (priceRangeFilter == null && searchQuery == "") {
-          console.log(respo.data);
-          dispatch(setProductList(respo.data));
+  
+        const response = await axios.get(url);
+        let filteredList = response.data;
+  
+        if (priceRangeFilter !== null) {
+          // Filter by price range
+          filteredList = filteredList.filter((item) => item.price <= priceRangeFilter);
         }
+  
+        if (searchQuery !== "") {
+          // Filter by search query in the title
+          filteredList = filteredList.filter((item) => item.title.includes(searchQuery));
+        }
+  
+        dispatch(setProductList(filteredList));
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching and filtering products:", error);
       }
     };
+  
     onLoad();
-    console.log(productList);
-  }, [categoryFilter, priceRangeFilter, searchQuery, sortBy]);
+  
+    // Add dispatch to the dependency array if it's defined within this component
+  }, [categoryFilter, priceRangeFilter, searchQuery, sortBy, dispatch]);
+  
 
   const handleCategoryChange = (e) => {
     if (e.target.value == "null") {
@@ -68,9 +78,10 @@ const Product = () => {
   };
   // men's clothing
   return (
-    <div className="flex">
+    <div className="flex flex-col  md:flex-row ">
+    {/* filter */}
       <div className="w-[15%] p-2">
-        <h2 className="font-semibold text-4xl">Filters</h2>
+        <h2 className="font-semibold text-4xl md:flex md:flex-wrap">Filters</h2>
         {/* category */}
         <div className="">
           <h4 className="font-bold">Category</h4>
@@ -129,7 +140,7 @@ const Product = () => {
             <li className="flex gap-1">
               <input
                 type="radio"
-                name="category"
+                name="priceRange"
                 value="null"
                 onClick={handlePriceRangeFilter}
               />
@@ -138,7 +149,7 @@ const Product = () => {
             <li className="flex gap-1">
               <input
                 type="radio"
-                name="category"
+                name="priceRange"
                 value="50"
                 onClick={handlePriceRangeFilter}
               />
@@ -147,7 +158,7 @@ const Product = () => {
             <li className="flex gap-1">
               <input
                 type="radio"
-                name="category"
+                name="priceRange"
                 value="100"
                 onClick={handlePriceRangeFilter}
               />
@@ -156,7 +167,16 @@ const Product = () => {
             <li className="flex gap-1">
               <input
                 type="radio"
-                name="category"
+                name="priceRange"
+                value="500"
+                onClick={handlePriceRangeFilter}
+              />
+              <span className="font-Bold text-lg ">500</span>
+            </li>
+            <li className="flex gap-1">
+              <input
+                type="radio"
+                name="priceRange"
                 value="1000"
                 onClick={handlePriceRangeFilter}
               />
@@ -189,7 +209,7 @@ const Product = () => {
           </ul>
         </div>
       </div>
-      <div className="w-[85%] flex flex-wrap gap-2">
+      <div className="w-[85%] flex flex-wrap flex-shrink gap-2">
         {productList.length === 0 ? (
           <></>
         ) : (

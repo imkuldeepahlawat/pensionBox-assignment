@@ -18,6 +18,10 @@ const setSorttBy = (sortOption) => ({
   type: `SET_SORT_BY`,
   payload: sortOption,
 });
+const setPageNo = (pageNo) => ({
+  type: `SET_PAGE_NO`,
+  payload: pageNo,
+});
 
 export {
   setProductList,
@@ -25,4 +29,5 @@ export {
   setPriceRangeFilter,
   setSearchQuery,
   setSorttBy,
+  setPageNo
 };
