@@ -13,7 +13,7 @@ const ProductCard = ({ card }) => {
         <h1 className="">{card.title}</h1>
         <p>price {card.price}</p>
 
-        <div className="flex  gap-2">
+        <div className="flex ">
           <p>Rating</p>{" "}
           <Rating name="read-only" value={card.rating.rate} readOnly />
         </div>
